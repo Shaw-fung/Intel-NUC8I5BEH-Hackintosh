@@ -27,13 +27,11 @@
 - Stay Off
 ***
 ## 安装说明
-- Monterey由于蓝牙框架改动，需要使用新的蓝牙驱动，需要将原IntelBluetoothInjector.kext开机加载取消，改用BlueToolFixup.kext开机加载。IntelBluetoothFirmware.kext这个不需要变动，仍然保持开机加载。
-
-- Monterey安装的时候如需要启动自带WiFi，则需要将AirportItlwm.kext这个文件开机加载取消，改用开机加载AirportItlwm_v2.0.0_stable_Monterey.kext.kext这个驱动，然后就可以正常使用自带WiFi驱动。
+- 系统安装完成后自己修改序列号等相关配置
 
 ## 更新日志
 #### 2021-11-10
-- 支持Big sur及monterey
+- 支持Big sur及monterey安装
 - 支持读卡器使用
 - 完美睡眠
 - intel WiFi及蓝牙可以使用
