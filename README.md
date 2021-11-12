@@ -1,8 +1,7 @@
 # Intel-NUC8I5BEH-Hackintosh
 ## 电脑配置
-|  | |
-| :----: | :----:  | 
 | 电脑型号 | NUC8I5BEH |
+| :----: | :----:  | 
 | 操作系统 | macOS Big Sur / Monterey |
 | 处理器 | Intel® Core™ i5-8259U Processor (6M Cache, up to 3.80 GHz) |
 | 内存| 32 GB 2400 MHz DDR4 |
@@ -14,17 +13,13 @@
 ***
 ## BIOS设置
 - BIOS版本089
- ### Disable
- - Legacy Boot
-- Fast Boot
-- Network Boot
-- Secure Boot
-- Inter VT for directed I/VO(VT-d)
-### Enable
-- Boot USB Devices First
-- Boot Network Devices Last
-- Wake on LAN from S4/S5
-- Stay Off
+- 升级BIOS -> load BIOS defaults -> click advanced and change;
+- Devices -> USB -> Port Device Charging Mode: off
+- Devices -> USB -> USB Legacy -> Disabled
+- Boot -> Boot Configuration -> Network Boot: Disable
+- Boot -> Secure Boot -> Disable
+- Security -> Thunderbolt Security Level: Legacy Mode
+- Power -> Wake on LAN from S4/S5: Stay Off
 ***
 ## 安装说明
 - 系统安装完成后自己修改序列号等相关配置
