@@ -23,7 +23,14 @@
 ***
 ## 安装说明
 - 系统安装完成后自己修改序列号等相关配置
-
+***
+## 安装Monterey、Big Sur成功截图如下：
+### Monterey：
+![avatar](https://github.com/Shaw-fung/Intel-NUC8I5BEH-Hackintosh/blob/main/screenshots/Monterey.png?raw=ture)
+***
+### Big Sur：
+![avatar](https://github.com/Shaw-fung/Intel-NUC8I5BEH-Hackintosh/blob/main/screenshots/Big%20Sur.png?raw=true)
+****
 ## 更新日志
 #### 2021-11-10
 - 支持Big sur及monterey安装
