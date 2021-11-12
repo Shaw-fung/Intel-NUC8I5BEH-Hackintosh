@@ -13,7 +13,7 @@
 | 有线网卡 | Intel I219V6 PCI Express Gigabit Ethernet |	
 ***
 ## BIOS设置
-- BIOS版本
+- BIOS版本089
  ### Disable
  - Legacy Boot
 - Fast Boot
