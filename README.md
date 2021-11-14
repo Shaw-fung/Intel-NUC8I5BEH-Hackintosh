@@ -2,7 +2,7 @@
 ## 电脑配置
 | 电脑型号 | NUC8I5BEH |
 | :----: | :----:  | 
-| 操作系统 | macOS Big Sur / Monterey |
+| 操作系统 | macOS Monterey / Big Sur  |
 | 处理器 | Intel® Core™ i5-8259U Processor (6M Cache, up to 3.80 GHz) |
 | 内存| 32 GB 2400 MHz DDR4 |
 | 硬盘 | Samsung SSD 970 EVO Plus |
@@ -22,6 +22,8 @@
 - Power -> Wake on LAN from S4/S5: Stay Off
 ***
 ## 安装说明
+- 目前建议安装Monterey，当然Big Sur也可以安装
+- opencore版本0.7.5
 - 系统安装完成后自己修改序列号等相关配置
 ***
 ## 安装Monterey、Big Sur成功截图如下：
