@@ -26,6 +26,8 @@
 - opencore版本0.7.5
 - 系统安装完成后自己修改序列号等相关配置
 ***
+如果有问题，欢迎提交提问讨论，[我要提交问题](https://github.com/Intel-NUC8I5BEH-Hackintosh/issues/new)！
+***
 ## 安装Monterey、Big Sur成功截图如下：
 ### Monterey：
 ![avatar](https://github.com/Shaw-fung/Intel-NUC8I5BEH-Hackintosh/blob/main/screenshots/Monterey.png?raw=ture)
