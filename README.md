@@ -36,6 +36,8 @@
 ![avatar](https://github.com/Shaw-fung/Intel-NUC8I5BEH-Hackintosh/blob/main/screenshots/Big%20Sur.png?raw=true)
 ****
 ## 更新日志
+#### 2022-2-24
+- Monterey可以在线升级到12.2.1 (21D62)
 #### 2021-11-12
 - 支持Big sur及monterey安装
 - 支持读卡器使用
