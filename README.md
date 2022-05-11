@@ -36,6 +36,8 @@
 ![avatar](https://github.com/Shaw-fung/Intel-NUC8I5BEH-Hackintosh/blob/main/screenshots/Big%20Sur.png?raw=true)
 ****
 ## 更新日志
+#### 2022-04-1
+- 现在EFI可以在线升级到12.3.1 (21E258)
 #### 2022-3-19
 - Monterey可以在线升级到12.3 (21E230)
 #### 2022-2-24
