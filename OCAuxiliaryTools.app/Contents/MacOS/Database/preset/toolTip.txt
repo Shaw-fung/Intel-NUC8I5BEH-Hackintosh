@@ -1,0 +1,410 @@
+
+***FadtEnableReset
+Type: plist boolean
+
+Description: Provide reset register and flag in FADT table to enable reboot and shutdown.
+
+Mainly required on legacy hardware and a few newer laptops. Can also fix power-button shortcuts. Not recommended unless required.
+----
+类型：plist布尔值
+
+描述：在FADT表中提供复位寄存器和标志，以实现重启和关机。
+
+主要是在传统硬件和一些较新的笔记本上需要。也可以修复电源按钮的快捷方式。除非需要，否则不建议使用。
+
+
+***NormalizeHeaders
+Description: Cleanup ACPI header fields to workaround macOS ACPI implementation flaws that result in boot crashes. 
+
+Reference: Debugging AppleACPIPlatform on 10.13 by Alex James (also known as theracermaster). 
+
+The issue was fixed in macOS Mojave (10.14).
+----
+描述：清理 ACPI 头部字段，以解决 macOS ACPI 实施缺陷导致的启动崩溃问题。
+
+参考文献: Debugging AppleACPIPlatform on 10.13 by Alex James (other known as theracermaster). 
+
+这个问题在macOS Mojave (10.14)中得到了修复。
+
+
+***SystemProductName
+Type: plist string
+Failsafe: Empty (OEM specified or not installed)
+Description: Refer to SMBIOS SystemProductName.
+----
+类型：plist字符串
+失效保护：空(OEM指定或未安装)
+描述：参考SMBIOS SystemProductName。
+
+***HibernateMode
+Type: plist string
+Failsafe: None
+Description: Hibernation detection mode. The following modes are supported:
+• None — Ignore hibernation state.
+• Auto — Use RTC and NVRAM detection.
+• RTC — Use RTC detection.
+• NVRAM — Use NVRAM detection.
+Note: If the firmware can handle hibernation itself (valid for Mac EFI firmware), then None should be specified to hand-off hibernation state as is to OpenCore.
+----
+类型：plist字符串
+失效保护：空(OEM指定或未安装) 
+描述：休眠检测模式。
+支持以下模式。
+- None - 忽略休眠状态。
+- Auto - 使用RTC和NVRAM检测。
+- RTC - 使用RTC检测。
+- NVRAM - 使用NVRAM检测。
+注意：如果固件可以自己处理休眠（对Mac EFI固件有效），那么应该指定None，以便将休眠状态原封不动地交给OpenCore。
+
+// Kernel Quirks
+***DisableRtcChecksum
+Type: plist boolean
+Failsafe: false
+Requirement: 10.4
+
+Description: Disables primary checksum (0x58-0x59) writing in AppleRTC.
+
+Note 1 : This option will not protect other areas from being overwritten, see RTCMemoryFixup kernel extension if this is desired.
+Note 2 : This option will not protect areas from being overwritten at firmware stage (e.g. macOS bootloader), see AppleRtcRam protocol description if this is desired.
+----
+类型：plist布尔值
+失败保护: false
+要求：10.4
+
+描述：禁用AppleRTC中的主校验和（0x58-0x59）写入。
+
+注1：该选项不会保护其他区域被覆盖，如果需要，请看RTCMemoryFixup内核扩展。
+注2 : 该选项不会保护在固件阶段(如macOS bootloader)被覆盖的区域，如果需要，请看AppleRtcRam协议描述。
+
+***ExtendBTFeatureFlags
+Type: plist boolean
+Failsafe: false
+Requirement: 10.8-11
+
+Description: Set FeatureFlags to 0x0F for full functionality of Bluetooth, including Continuity.
+	
+Note: This option is a substitution for BT4LEContinuityFixup.kext, which does not function properly due to late patching progress.
+----
+类型：plist布尔值
+失败保护: false
+要求：10.8-11
+
+描述：设置FeatureFlags为0x0F以获得蓝牙的全部功能，包括Continuity。
+	
+注意: 这个选项是BT4LEContinuityFixup.kext的替代品，由于补丁进度较晚，它不能正常工作。
+
+***ExternalDiskIcons
+Type: plist boolean
+Failsafe: false
+Requirement: 10.4
+
+Description: Apply icon type patches to AppleAHCIPort.kext to force internal disk icons for all AHCI disks.
+
+Note: This option should be avoided whenever possible. Modern firmware typically have compatible AHCI controllers.
+----
+类型：plist布尔值
+失败保护: false
+要求：10.4
+
+描述：对AppleAHCIPort.kext应用图标类型补丁，强制所有AHCI磁盘的内部磁盘图标。
+
+注意：应该尽可能避免使用这个选项。现代固件通常有兼容的AHCI控制器。
+
+***ForceSecureBootScheme
+Type: plist boolean
+Failsafe: false
+Requirement: 11
+Description: Force x86 scheme for IMG4 verification.
+	
+Note: This option is required on virtual machines when using SecureBootModel different from x86legacy.
+----
+类型：plist布尔值
+失败保护: false
+要求：11
+描述：为IMG4验证强制使用x86方案。
+	
+注意: 当使用不同于x86legacy的SecureBootModel时，在虚拟机上需要这个选项。
+
+
+***Cpuid1Mask
+Type: plist data, 16 bytes
+Failsafe: All zero
+Description: Bit mask of active bits in Cpuid1Data.
+
+When each Cpuid1Mask bit is set to 0, the original CPU bit is used, otherwise set bits take the value of Cpuid1Data.
+----
+
+类型：plist数据，16字节
+失效保护：全部为零
+描述：Cpuid1Data中活动位的位掩码。
+
+当每个Cpuid1Mask位被设置为0时，使用原来的CPU位，否则设置的位取Cpuid1Data的值。
+
+
+***MaxKernel
+Type: plist string
+Failsafe: Empty
+
+Description: Emulates CPUID and applies DummyPowerManagement on specified macOS version or older.
+
+Note: Refer to the Add MaxKernel description for matching logic.
+----
+类型：plist字符串
+失败保护：空
+
+描述：仿真CPUID并在指定的macOS版本或更高版本上应用DummyPowerManagement。
+
+注意：请参考添加MaxKernel描述的匹配逻辑。
+
+
+
+***MinKernel
+Type: plist string
+Failsafe: Empty
+
+Description: Emulates CPUID and applies DummyPowerManagement on specified macOS version or newer.
+
+Note: Refer to the Add MaxKernel description for matching logic.
+----
+类型：plist字符串
+失败保护：空
+
+描述：在指定的macOS版本或更新版本上模拟CPUID并应用DummyPowerManagement。
+
+注意：请参考添加MaxKernel描述的匹配逻辑。
+
+
+***EnableVmx
+Type: plist boolean
+Failsafe: false
+Description: Enable Intel virtual machine extensions.
+Note: Required to allow virtualization in Windows on some Mac hardware. VMX is enabled or disabled and locked by BIOS before OpenCore starts on most firmware. Use BIOS to enable virtualization where possible.
+----
+类型：plist布尔值
+失败保护：false
+描述：启用英特尔虚拟机扩展。
+注意：需要在某些Mac硬件上允许在Windows中进行虚拟化。在大多数固件的OpenCore启动之前，VMX被BIOS启用或禁用并锁定。在可能的情况下使用BIOS来启用虚拟化。
+
+***AudioOutMask
+Type: plist integer
+Failsafe: 0
+Description: Bit field indicating which output channels to use for UEFI sound.
+This should typically contain a single bit corresponding to the green out of the builtin analog audio controller (HDEF). The number of available output nodes (N) for each HDA codec is shown in the debug log (marked in bold-italic):
+OCAU: 1/3 PciRoot(0x0)/Pci(0x1,0x0)/Pci(0x0,0x1)/VenMsg(<redacted>,00000000) (4 outputs)
+OCAU: 2/3 PciRoot(0x0)/Pci(0x3,0x0)/VenMsg(<redacted>,00000000) (1 outputs)
+OCAU: 3/3 PciRoot(0x0)/Pci(0x1B,0x0)/VenMsg(<redacted>,02000000) (7 outputs)
+The first available output node is bit 0 (value 1), the second node is bit 1 (value 2), etc.
+When the debug version of AudioDxe is used, then additional information on each output channel of each codec is logged during driver binding. Further information on the available output channels may also be found from a Linux codec dump cat /proc/asound/card{n}/codec#{m}.
+Using AudioOutMask, it is possible to play sound to more than one channel (e.g. main speaker plus bass speaker;
+headphones plus speakers). For example, if the main speaker is ouput 0 and the bass speaker is output 2, then to play to both set AudioOutMask to 1 « 0 + 1 « 2 i.e. 5. This feature is supported when all chosen outputs support the sound file format in use; if any do not then no sound will play and an error will be logged.
+Note 1 : If all available output channels on the codec support the available sound file format, then a value of -1 may be used to play to all channels simultaneously.
+Note 2 : Bits in AudioOutMask do not represent internal codec node ids as found in detailed codec dumps, but rather the available output nodes as shown e.g. in the OCAU log lines above.
+----
+类型：plist整数
+失败保护：0
+描述：表示哪些输出通道用于UEFI声音的位字段。
+这通常应该包含一个与内置模拟音频控制器（HDEF）的绿色输出相对应的单一位。每个HDA编解码器的可用输出节点的数量（N）在调试日志中显示（用粗体字标记）。
+OCAU: 1/3 PciRoot(0x0)/Pci(0x1,0x0)/Pci(0x0,0x1)/VenMsg(<redacted>,00000000) (4个输出)
+OCAU: 2/3 PciRoot(0x0)/Pci(0x3,0x0)/VenMsg(<redacted>,000000) (1个输出)
+OCAU: 3/3 PciRoot(0x0)/Pci(0x1B,0x0)/VenMsg(<redacted>,020000) (7个输出)
+第一个可用的输出节点是位0（值1），第二个节点是位1（值2），等等。
+当使用AudioDxe的调试版本时，那么每个编解码器的每个输出通道的额外信息会在驱动绑定时被记录下来。关于可用输出通道的更多信息也可以从Linux编解码器转储cat /proc/asound/card{n}/codec#{m}中找到。
+使用AudioOutMask，可以将声音播放到一个以上的通道（例如，主扬声器加低音扬声器、耳机加扬声器）。例如，如果主扬声器是输出0，低音扬声器是输出2，那么要向这两个通道播放，将AudioOutMask设置为1 << 0 + 1 << 2即5。当所有选择的输出都支持所使用的声音文件格式时，就支持这个功能；如果有任何不支持，就不会有声音播放，并且会记录错误。
+注1：如果编解码器上所有可用的输出通道都支持可用的声音文件格式，那么-1的值可以用来同时向所有通道播放。
+注2：AudioOutMask中的比特不代表在详细的编解码器转储中发现的内部编解码器节点ID，而是代表可用的输出节点，例如在上面的OCAU日志行中显示。
+
+
+***DisconnectHda
+Type: plist boolean
+Failsafe: false
+Description: Disconnect HDA controller before loading drivers.
+May be required on some systems (e.g. Apple hardware, VMware Fusion guest) to allow a UEFI sound driver (such as AudioDxe) to take control of the audio hardware.
+----
+类型：plist布尔值
+失败保护: false
+描述：在加载驱动前断开HDA控制器的连接。
+在某些系统上可能需要这样做（例如苹果硬件、VMware Fusion guest），以允许UEFI声音驱动（例如AudioDxe）控制音频硬件。
+
+
+***PointerPollMin
+Type: plist integer
+Failsafe: 0
+Description: Configure minimal pointer polling period in ms.
+This is the minimal period the OpenCore builtin AppleEvent driver polls pointer devices (e.g. mice, trackpads) for motion events. The current implementation defaults to 10 ms. Setting 0 leaves this default unchanged.
+Note: The OEM Apple implementation uses a polling rate of 2 ms.
+----
+类型：plist整数
+失败保护：0
+描述：配置最小的指针轮询周期（ms）。
+这是OpenCore内置的AppleEvent驱动程序对指针设备（例如鼠标、触控板）进行运动事件轮询的最小周期。目前的实施方法默认为10毫秒。设置为0将使这一默认值保持不变。
+注意：OEM苹果公司的实现使用2毫秒的轮询率。
+
+
+***PointerPollMax
+Type: plist integer
+Failsafe: 0
+Description: Configure maximum pointer polling period in ms.
+This is the maximum period the OpenCore builtin AppleEvent driver polls pointer devices (e.g. mice, trackpads) for motion events. The period is increased up to this value as long as the devices do not respond in time. The current implementation defaults to 80 ms. Setting 0 leaves this default unchanged.
+Certain trackpad drivers often found in Dell laptops can be very slow to respond when no physical movement happens. This can affect OpenCanopy and FileVault 2 user interface responsiveness and loading times. Increasing the polling periods can reduce the impact.
+Note: The OEM Apple implementation uses a polling rate of 2 ms.
+----
+类型：plist整数
+失败保护：0
+描述：配置最大的指针轮询周期，单位是ms。
+这是OpenCore内置的AppleEvent驱动程序对指针设备（如鼠标、触控板）进行运动事件轮询的最长时间。只要设备没有及时响应，该周期就会增加到这个值。目前的实现默认为80ms。设置为0会使这个默认值保持不变。
+戴尔笔记本电脑中经常发现的某些触控板驱动程序在没有物理运动发生时可能反应非常慢。这可能会影响OpenCanopy和FileVault 2用户界面的响应能力和加载时间。增加轮询周期可以减少影响。
+注意：OEM苹果公司的实现使用2毫秒的轮询率。
+
+
+***PointerPollMask
+Type: plist integer, 32 bit
+Failsafe: -1
+Description: Configure indices of polled pointers.
+Selects pointer devices to poll for AppleEvent motion events. -1 implies all devices. A bit sum is used to determine particular devices. E.g. to enable devices 0, 2, 3 the value will be 1+4+8 (corresponding powers of two). A total of 32 configurable devices is supported.
+Certain pointer devices can be present in the firmware even when no corresponding physical devices are available.
+These devices usually are placeholders, aggregate devices, or proxies. Gathering information from these devices may result in inaccurate motion activity in the user interfaces and even cause performance issues. Disabling such pointer devices is recommended for laptop setups having issues of this kind.
+The amount of pointer devices available in the system can be found in the log. Refer to Found N pointer devices message for more details.
+Note: Has no effect when using the OEM Apple implementation (see AppleEvent setting).
+----
+类型：plist整数，32位
+失效保护：-1
+描述：配置被轮询的指针的索引。
+选择要轮询AppleEvent运动事件的指针设备。-1意味着所有设备。用一个比特的总和来确定特定的设备。例如，要启用设备0、2、3，其值将是1+4+8（相应的2的幂）。总共支持32个可配置的设备。
+即使没有相应的物理设备，某些指针设备也可以出现在固件中。
+这些设备通常是占位符、聚合设备或代理。从这些设备中收集信息可能导致用户界面中的运动活动不准确，甚至导致性能问题。对于有这种问题的笔记本设置，建议禁用这种指针设备。
+系统中可用的指针设备的数量可以在日志中找到。更多细节请参考发现N个指针设备信息。
+注意：当使用OEM的苹果实现时没有效果（见AppleEvent设置）。
+
+
+***MaximumGain
+Type: plist integer
+Failsafe: -15
+Description: Maximum gain to use for UEFI audio, specified in decibels (dB) with respect to amplifier reference level of 0 dB (see note 1).
+All UEFI audio will use this gain setting when the system amplifier gain read from the SystemAudioVolumeDB NVRAM variable is higher than this. This is to avoid over-loud UEFI audio when the system volume is set very high, or the SystemAudioVolumeDB NVRAM value has been misconfigured.
+Note 1 : Decibels (dB) specify gain (postive values; increase in volume) or attenuation (negative values; decrease in volume) compared to some reference level. When you hear the sound level of a jet plane expressed as 120 decibels, say, the reference level is the sound level just audible to an average human. However generally in acoustic science and computer audio any reference level can be specified. Intel HDA and macOS natively use decibels to specify volume level. On most Intel HDA hardware the reference level of 0 dB is the loudest volume of the hardware, and all lower volumes are therefore negative numbers. The quietest volume on typical sound hardware is around -55 dB to -60 dB.
+Note 2 : Matching how macOS handles decibel values, this value is converted to a signed byte; therefore values outside e 128 dB to +127 dB (which are well beyond physically plausible volume levels) are not allowed.
+Note 3 : Digital audio output – which does not have a volume slider in-OS – ignores this and all other gain settings, only mute settings are relevant.
+----
+类型：plist整数
+失效保护：-15
+描述：用于UEFI音频的最大增益，以分贝（dB）为单位，相对于放大器的参考电平0dB（见注1）。
+当从SystemAudioVolumeDB NVRAM变量中读取的系统放大器增益高于此值时，所有UEFI音频将使用此增益设置。这是为了避免在系统音量设置得很高，或者SystemAudioVolumeDB NVRAM值被错误配置时，UEFI音频过大。
+注1：分贝（dB）是指与某些参考水平相比的增益（正值；音量增加）或衰减（负值；音量减少）。当你听到喷气式飞机的声级表示为120分贝时，例如，参考水平是普通人可以听到的声级。然而，通常在声学
+科学和计算机音频中，任何参考电平都可以被指定。英特尔HDA和macOS原生使用分贝来指定音量级别。在大多数英特尔HDA硬件上，0分贝的参考电平是硬件的最大声量，因此所有更低的音量是负数。典型的声音硬件上最安静的音量
+是-55dB到-60dB左右。
+注2：与macOS处理分贝值的方式一致，这个值被转换为有符号的字节；因此不允许有128分贝到+127分贝以外的值（这些值远远超出了物理上合理的音量水平）。
+注3：数字音频输出--在操作系统中没有音量滑块--忽略这个和所有其他增益设置，只有静音设置是相关的。
+
+
+
+***MinimumAssistGain
+Type: plist integer
+Failsafe: -30
+Description: Minimum gain in decibels (dB) to use for picker audio assist.
+The screen reader will use this amplifier gain if the system amplifier gain read from the SystemAudioVolumeDB NVRAM variable is lower than this.
+Note 1 : In addition to this setting, because audio assist must be audible to serve its function, audio assist is not muted even if the OS sound is muted or the StartupMute NVRAM variable is set.
+Note 2 : See MaximumGain for an explanation of decibel volume levels.
+----
+类型：plist整数
+失效保护：-30
+描述：用于拾音器音频辅助的最小增益，单位是分贝（dB）。
+如果从SystemAudioVolumeDB NVRAM变量中读取的系统放大器增益低于此值，那么屏幕阅读器将使用此放大器增益。
+注1 : 除了这个设置外，因为音频辅助必须是可听的才能发挥其功能，所以即使操作系统的声音是静音的或StartupMute NVRAM变量被设置，音频辅助也不会被静音。
+注2：关于分贝音量级别的解释，请看MaximumGain。
+
+
+***MinimumAudibleGain
+Type: plist integer
+Failsafe: -128
+Description: Minimum gain in decibels (dB) at which to attempt to play any sound.
+The boot chime will not play if the system amplifier gain level in the SystemAudioVolumeDB NVRAM variable is lower than this.
+Note 1 : This setting is designed to save unecessary pauses due to audio setup at inaudible volume levels, when no sound will be heard anyway. Whether there are inaudible volume levels depends on the hardware. On some hardware (including Apple) the audio values are well enough matched to the hardware that the lowest volume levels available are very quiet but audible, whereas on some other hardware combinations, the lowest part of the volume range may not be audible at all.
+Note 2 : See MaximumGain for an explanation of decibel volume levels.
+----
+类型：plist整数
+失效保护：-128
+描述：尝试播放任何声音的最小增益，单位是分贝（dB）。
+如果SystemAudioVolumeDB NVRAM变量中的系统放大器增益水平低于此值，则不会播放开机鸣响。
+注1：这个设置是为了避免在听不见的音量水平上进行音频设置而导致的不必要的停顿，因为无论如何都不会听到声音。是否有听不见的音量水平取决于硬件。在一些硬件上（包括苹果），最低的音量音频值与硬件匹配得很好，而在其他一些硬件组合上，音量范围的最低部分可能根本就听不到。
+注2：请看MaximumGain对分贝音量级别的解释。
+
+
+***LogModules
+Type: plist string
+Failsafe: *
+Description: Filter log entries by module.
+This option filters logging generated by specific modules, both in the log and onscreen. Two modes are supported:
+• + — Positive filtering: Only present selected modules.
+• - — Negative filtering: Exclude selected modules.
+When multiple ones are selected, comma (,) should be used as the splitter. For instance, +OCCPU,OCA,OCB means only OCCPU, OCA, OCB being printed, while -OCCPU,OCA,OCB indicates these modules being filtered out (i.e. not logged). When no symbol is specified, positive filtering (+) will be used. * indicates all modules being logged.
+Note 1 : Acronyms of libraries can be found in the Libraries section below.
+Note 2 : Messages printed before the configuration of log protocol cannot be filtered.
+----
+类型：plist字符串
+失效保护：*
+描述：按模块过滤日志条目。
+这个选项可以过滤由特定模块产生的日志，包括在日志和屏幕上，支持两种模式：
+1. +  正面过滤，只显示选定的模块。
+2. -  否定过滤，排除选定的模块。
+当选择多个模块时，应使用逗号（,）作为分隔符。例如，+OCCPU,OCA,OCB意味着只打印OCCPU、OCA、OCB，而-OCCPU,OCA,OCB表示这些模块被过滤掉（即不记录）。当没有指定符号时，将使用正向过滤（+）。* 表示所有的模块都被记录下来。
+注1：库的首字母缩写可参见说明文档的“Libraries”部分。
+注2：在配置日志协议之前打印的信息不能被过滤。
+
+
+
+***LegacyEnable
+Type: plist boolean
+Failsafe: false
+Description: Enables loading a NVRAM variable file named nvram.plist from EFI volume root.
+This file must have a root plist dictionary type and contain two fields:
+• Version — plist integer, file version, must be set to 1.
+• Add — plist dictionary, equivalent to Add from config.plist.
+Variable loading happens prior to the Delete (and Add) phases. Unless LegacyOverwrite is enabled, it will not overwrite any existing variable. Variables allowed to be set must be specified in LegacySchema.
+Third-party scripts may be used to create nvram.plist file. An example of such script can be found in Utilities.
+The use of third-party scripts may require ExposeSensitiveData set to 0x3 to provide boot-path variable with the OpenCore EFI partition UUID.
+Warning: This feature can be dangerous, as it passes unprotected data to firmware variable services. Only use
+when no hardware NVRAM implementation is provided by the firmware or when the NVRAM implementation is incompatible.
+----
+类型：plist布尔值
+失败保护: false
+描述：启用从EFI卷根加载一个名为nvram.plist的NVRAM变量文件。
+这个文件必须有一个根plist字典类型，并包含两个字段：
+1. Version -- plist整数，文件版本，必须设置为1。
+2. Add -- plist字典，等同于config.plist中的Add。
+变量加载发生在删除（和添加）阶段之前。除非启用LegacyOverwrite，否则它不会覆盖任何现有的变量。允许设置的变量必须在LegacySchema中指定。
+第三方脚本可用于创建nvram.plist文件。这种脚本的例子可以在Utilities中找到。
+使用第三方脚本可能需要将ExposeSensitiveData设置为0x3，以提供带有OpenCore EFI分区UUID的启动路径变量。
+警告：该功能可能是危险的，因为它将未受保护的数据传递给固件变量服务，只有在固件没有提供硬件NVRAM实现或NVRAM实现不兼容时才使用。
+
+
+***SetApfsTrimTimeout
+Type: plist integer
+Failsafe: -1
+Requirement: 10.14 (not required for older)
+Description: Set trim timeout in microseconds for APFS filesystems on SSDs.
+	
+The APFS filesystem is designed in a way that the space controlled via the spaceman structure is either used or free. This may be different in other filesystems where the areas can be marked as used, free, and unmapped. All free space is trimmed (unmapped/deallocated) at macOS startup. The trimming procedure for NVMe drives happens in LBA ranges due to the nature of the DSM command with up to 256 ranges per command. The more fragmented the memory on the drive is, the more commands are necessary to trim all the free space.
+	
+Depending on the SSD controller and the level of drive fragmenation, the trim procedure may take a considerable amount of time, causing noticeable boot slowdown. The APFS driver explicitly ignores previously unmapped areas and repeatedly trims them on boot. To mitigate against such boot slowdowns, the macOS driver introduced a timeout (9.999999 seconds) that stops the trim operation when not finished in time.
+
+On several controllers, such as Samsung, where the deallocation process is relatively slow, this timeout can be reached very quickly. Essentially, it means that the level of fragmentation is high, thus macOS will attempt to trim the same lower blocks that have previously been deallocated, but never have enough time to deallocate higher blocks. The outcome is that trimming on such SSDs will be non-functional soon after installation, resulting in additional wear on the flash.
+
+One way to workaround the problem is to increase the timeout to an extremely high value, which at the cost of slow boot times (extra minutes) will ensure that all the blocks are trimmed. Set this option to a high value,such as 4294967295, to ensure that all blocks are trimmed. Alternatively, use over-provisioning, if supported, or create a dedicated unmapped partition where the reserve blocks can be found by the controller. Conversely, the trim operation can be disabled by setting a very low timeout value. e.g. 999. Refer to this article for details.
+	
+On macOS 12+, it is no longer possible to set trim timeout for APFS filesystems. However, trim can be disabled when the timeout value is set to 0.
+----
+类型：plist整数
+失效保护：-1
+要求：10.14 (旧版不需要)
+描述：为SSD上的APFS文件系统设置修剪超时，单位是微秒。
+	
+APFS文件系统的设计方式是，通过spaceman结构控制的空间要么被使用，要么被释放。这可能与其他文件系统不同，在其他文件系统中，空间可以被标记为已使用、空闲和未映射的区域。所有自由空间在macOS启动时被修剪（未映射/去分配）。由于DSM命令的性质，NVMe驱动器的修剪过程是在LBA范围内进行的，每个命令最多有256个范围。驱动器上的存储越分散，就需要更多的命令来修剪所有的自由空间。
+	
+根据SSD控制器和硬盘碎片的程度，修剪过程可能需要相当长的时间，导致明显的启动速度下降。APFS驱动明确地忽略了以前未映射的区域，并在启动时反复修剪它们。为了减轻这种启动速度，macOS驱动程序引入了一个超时（9.999999秒），在没有及时完成修剪操作时停止修剪。
+
+在一些控制器上，例如三星，其去分配过程相对较慢，这个超时可以很快达到。从本质上讲，这意味着碎片化程度很高，因此macOS会试图修剪之前已经被取消分配的相同的较低块，但永远没有足够的时间去取消较高块的分配。其结果是，在这种固态硬盘上的修剪在安装后不久就会失去功能，导致闪存的额外磨损。
+
+解决这个问题的一个方法是把超时时间增加到一个非常高的值，这样做的代价是启动时间变慢（额外的几分钟），这将确保所有的块都被修剪。把这个选项设置为一个高值，比如4294967295，以确保所有的块都被修剪。另外，如果支持的话，使用超额配置，或者创建一个专用的未映射分区，控制器可以在那里找到保留的块。反之，可以通过设置一个非常低的超时值来禁用修剪操作，例如999。详情请参考这篇文章。
+	
+在macOS 12+上，已经不可能为APFS文件系统设置修剪超时了。然而，当超时值被设置为0时，修剪可以被禁用。
+	
