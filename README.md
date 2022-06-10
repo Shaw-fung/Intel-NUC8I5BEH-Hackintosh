@@ -1,4 +1,7 @@
 # Intel-NUC8I5BEH-Hackintosh
+
+[![OpenCore version](https://img.shields.io/badge/OpenCore-0.8.1-blueviolet.svg)](https://github.com/acidanthera/OpenCorePkg) [![MacOS version](https://img.shields.io/badge/Monterey-12.4%2021F79-blueviolet.svg)](https://www.apple.com/macos) 
+***
 ## 电脑配置
 | 电脑型号 | NUC8I5BEH |
 | :----: | :----:  | 
