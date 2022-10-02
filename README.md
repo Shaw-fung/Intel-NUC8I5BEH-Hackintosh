@@ -39,6 +39,8 @@
 ![avatar](https://github.com/Shaw-fung/Intel-NUC8I5BEH-Hackintosh/blob/main/screenshots/Big%20Sur.png?raw=true)
 ****
 ## 更新日志
+#### 2022-10-02
+- 目前版本EFI可以在线升级到12.6（21G115）
 #### 2022-7-22
 - 目前版本EFI可以在线升级到12.5（21G72）
 #### 2022-6-9
