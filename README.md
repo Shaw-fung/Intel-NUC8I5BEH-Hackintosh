@@ -32,6 +32,9 @@
 如果有问题，欢迎提交提问讨论，[我要提交问题](https://github.com/Shaw-fung/Intel-NUC8I5BEH-Hackintosh/issues/new)！
 ***
 ## 安装Monterey、Big Sur成功截图如下：
+### Ventura：
+![avatar](https://github.com/Shaw-fung/Intel-NUC8I5BEH-Hackintosh/blob/main/screenshots/Ventura.png?raw=ture)
+***
 ### Monterey：
 ![avatar](https://github.com/Shaw-fung/Intel-NUC8I5BEH-Hackintosh/blob/main/screenshots/Monterey.png?raw=ture)
 ***
