@@ -42,6 +42,8 @@
 ![avatar](https://github.com/Shaw-fung/Intel-NUC8I5BEH-Hackintosh/blob/main/screenshots/Big%20Sur.png?raw=true)
 ****
 ## 更新日志
+#### 2024-4-10
+- 其实很早EFI就可以升级到Ventura，一直没有更新，现在先传图上来，找时间给EFI传上来
 #### 2022-10-02
 - 目前版本EFI可以在线升级到12.6（21G115）
 #### 2022-7-22
